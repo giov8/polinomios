@@ -16,3 +16,10 @@
 		TipoPonteiro ult;               // esse campo vai apontar para o ultimo node
         } lista;
 #endif
+
+lista * NovaLista ();
+void FLvazia (lista *l);
+int VaziaL (lista *l);
+void InsereTermo (int x, lista *l);
+void LimpaLista (lista *l);
+
