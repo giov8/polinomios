@@ -63,107 +63,68 @@ polinomio escreve_polinomio(polinomio p) {
 	TipoPonteiro aux = p->prim->prox;	// cria um ponteiro auxiliar apontando para o primeiro termo da lista
 	int cont = 1;						// inicializa o contador que serve apenas para evitar que seja impresso o sinal + antes do primeiro termo
 
-	while (aux != NULL) {				// vai até o final da lista 
+	while (aux != NULL) {												// vai até o final da lista 
 		switch ((int)aux->coeficiente) {
-			case 0:
-				break;
-			case -1: {
-				if (aux->expoente == 0)
-					printf("-%2.lf ", aux->coeficiente*(-1));
-				else {
-					if (aux->expoente == 1)
-						printf("- x ");
-					else
-						printf("- x^%d ", aux->expoente);
+			case 0:														// se o coeficiente for 0:
+				break;													// sai do switch
+			case -1: {													// se o coeficiente for -1
+				if (aux->expoente == 0)									// e o expoente for 0:
+					printf("-%2.lf ", aux->coeficiente*(-1));			// imprime apenas o coeficiente -1
+				else {													// e o expoente for != 0:
+					if (aux->expoente == 1)								// se o expoente for 1
+						printf("- x ");									// imprime apenas -x
+					else												// se o expoente for != 1
+						printf("- x^%d ", aux->expoente);				// imprime o x^expoente
 				}
 				break;
 			}
-			case 1: {
-				if (cont > 1) printf("+");			// e se nao for o primeiro
+			case 1: {													// se o coeficiente for 1
+				if (cont > 1) printf("+");								// e se nao for o primeiro termo
 
-				if (aux->expoente == 0)
-					printf("%2.lf ", aux->coeficiente);
-				else {
-					if (aux->expoente == 1)
-						printf(" x ");
-					else
-						printf(" x^%d ", aux->expoente);
+				if (aux->expoente == 0)									// e o expoente for 0:
+					printf("%2.lf ", aux->coeficiente);					// imprime apenas o coeficiente 1
+				else {													// e o expoente for != 0:
+					if (aux->expoente == 1)								// se o expoente for 1
+						printf(" x ");									// imprime apenas x
+					else												// se o expoente for != 1
+						printf(" x^%d ", aux->expoente);				// imprime o x^expoente
 				}
 				break;
 			}
 			default: {
-				if (aux->coeficiente < 0) {			// se o coeficiente for negativo e != -1 
-					if (aux->expoente != 0) {	// e o expoente for diferente de zero:
-						if (aux->expoente == 1)	// e for igual a um
-							printf("-%2.lfx ", aux->coeficiente*(-1));
-						else					// ou for diferente de um
-							printf("-%2.lfx^%d ", aux->coeficiente*(-1), aux->expoente);
+				if (aux->coeficiente < 0) {								// se o coeficiente for negativo e != -1 
+					if (aux->expoente != 0) {							// e o expoente for != 0
+						if (aux->expoente == 1)							// e for igual a 1:
+							printf("-%2.lfx ", aux->coeficiente*(-1));	// imprime apenas o coeficiente
+						else											// se for != 1
+							printf("-%2.lfx^%d ", aux->coeficiente*(-1), aux->expoente);	// imprime o coeficiente x^expoente
 					}
-					else					// se o expoente for zero
-						printf("-%2.lf ", aux->coeficiente*(-1));
+					else												// se o expoente for 0
+						printf("-%2.lf ", aux->coeficiente*(-1));		// imprime apenas o coeficiente 
 				}
-				else {								// se o coeficiente for positivo e != 1 
-					if (cont > 1) printf("+");			// e se nao for o primeiro
+				else {													// se o coeficiente for positivo e != 1 
+					if (cont > 1) printf("+");							// e se nao for o primeiro termo
 
-					if (aux->expoente != 0) {	// e o expoente for diferente de zero:
-						if (aux->expoente == 1)	// e for igual a um
-							printf("%2.lfx ", aux->coeficiente);
-						else					// ou for diferente de um
-							printf("%2.lfx^%d ", aux->coeficiente, aux->expoente);
+					if (aux->expoente != 0) {							// e o expoente for != 0
+						if (aux->expoente == 1)							// e for igual a 1:
+							printf("%2.lfx ", aux->coeficiente);		// imprime coeficiente x
+						else											// se for diferente de != 1:
+							printf("%2.lfx^%d ", aux->coeficiente, aux->expoente);		// imprime coeficiente x^expoente
 					}
-					else					// se o expoente for zero
-						printf("%2.lf ", aux->coeficiente);
+					else												// se o expoente for 0:
+						printf("%2.lf ", aux->coeficiente);				// imprime apenas o coeficiente
 				}
 				break;
 			}
 		}
-		aux = aux->prox;				// aponta para o proximo
-		cont++;							// incrementa o contador
+		aux = aux->prox;												// aponta para o proximo
+		cont++;															// incrementa o contador
 	}
 
-    aux = NULL;							
-    free (aux);							// libera o ponteiro auxiliar
-    return p;							// devolve o polinomio ṕ
-
-    /*
-	while (aux != NULL) {				// vai até o final da lista 
-		if (aux->coeficiente != 0) {	// se o coeficiente for diferente de zero
-			if (aux->coeficiente < 0) {	// e for negativo:
-				if (aux->expoente != 0) {	// e o expoente for diferente de zero:
-					if (aux->expoente == 1)	// e for igual a um
-						printf("-%2.lfx ", aux->coeficiente*(-1));
-					else					// ou for diferente de um
-						printf("-%2.lfx^%d ", aux->coeficiente*(-1), aux->expoente);
-				}
-				else					// se o expoente for zero
-					printf("-%2.lf ", aux->coeficiente*(-1));
-			}	
-			else {						// se o coeficiente for postivo:
-				if (cont > 1)			// e se nao for o primeiro
-					printf("+");
-				if (aux->expoente != 0) {	// se o expoente for diferente de zero:
-					if (aux->expoente == 1)	// e for igual a um
-						printf("%2.lfx ", aux->coeficiente);
-					else					// ou for diferente de um
-						printf("%2.lfx^%d ", aux->coeficiente, aux->expoente);
-				}
-				else					// se o expoente for zero
-					printf("%2.lf ", aux->coeficiente); 	
-			}
-		}
-		aux = aux->prox;				// aponta para o proximo
-		cont++;							// incrementa o contador
-	}
-    aux = NULL;							
-    free (aux);							// libera o ponteiro auxiliar
-    return p;							// devolve o polinomio ṕ*/
+    aux = NULL;															// aponta para NULL		
+    free (aux);															// libera o ponteiro auxiliar
+    return p;															// devolve o polinomio p
 }
-
-
-
-
-
-
 
 
 /*----------------------------------------------------------------------------*/
