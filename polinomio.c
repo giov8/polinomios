@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 
 /*----------------------------------------------------------------------------*/
 int grau_polinomio(char *s) {
@@ -209,6 +210,14 @@ polinomio primitiva(polinomio p) {
 }
 /*----------------------------------------------------------------------------*/
 float avalia(polinomio p, float x) {
-  
-  /* Preencher com seu código aqui */
+
+	float resultado = 0;
+	TipoPonteiro aux = p->prim->prox;
+
+	while (aux != NULL) {
+		resultado += pow(x,aux->expoente)*aux->coeficiente;
+		aux = aux->prox;
+	}
+
+	return resultado;
 }
