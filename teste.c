@@ -4,8 +4,10 @@
 
 int main(void) {
 
-  polinomio p = constroi_polinomio("5 0 3 0 1"),
-    q = constroi_polinomio("6 0 0 4 0 -1"),
+  polinomio p = constroi_polinomio("5 0 3 -1 1"),
+  //polinomio p = constroi_polinomio("5 0 3 0 1"),
+    q = constroi_polinomio("6 -1 1 4 1 -1"),
+    //q = constroi_polinomio("6 0 0 4 0 -1"),
     p_linha = derivada(p);
 
   printf("p: ");
