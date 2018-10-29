@@ -1,8 +1,6 @@
 #ifndef _lista_
 #define _lista_
 
-/* PREENCHER COM SUAS DEFINIÇÕES DE TIPOS E FUNÇÕES */
-
 	typedef struct termo *TipoPonteiro;     // define um TipoPonteiro para nodes de termos do polinomio
 
 	typedef struct termo {					// define o tipo termo
@@ -23,4 +21,3 @@ void FLVazia (lista *l);
 int Vazia (lista *l);
 void Insere (double c, int e, lista *l);
 void LimpaLista (lista *l);
-

@@ -161,9 +161,53 @@ polinomio soma(polinomio p, polinomio q) {
 	return r;
 }
 /*----------------------------------------------------------------------------*/
+polinomio organiza(polinomio p) {
+
+	polinomio r = NovaLista();				// inicializa/ aloca a lista vazia
+	FLVazia(r);								// cria lista apenas com a cabeca
+
+	TipoPonteiro aux = p->prim->prox;				// cria um ponteiro auxiliar apontando para a cabeça da lista p
+
+	int expoente = 0;
+	double coeficiente = 0;
+
+	while (aux != NULL) {						// varre a lista e encontra o maior expoente
+		if (aux->expoente > expoente) {
+			expoente = aux->expoente;
+		}
+		aux = aux->prox;
+	}
+
+	for (expoente; expoente >= 0; expoente--) {
+		aux = p->prim->prox;
+		coeficiente = 0;
+		while (aux != NULL) {
+			if (expoente == aux->expoente)
+				coeficiente += aux->coeficiente;
+			aux = aux->prox;
+		}
+		Insere(coeficiente, expoente, r);
+	}
+	return r; 
+}
+/*----------------------------------------------------------------------------*/
 polinomio multiplica(polinomio p, polinomio q) {
   
-  /* Preencher com seu código aqui */
+	polinomio r = NovaLista();				// inicializa/ aloca a lista vazia
+	FLVazia(r);								// cria lista apenas com a cabeca
+	TipoPonteiro auxP = p->prim->prox;		// cria um ponteiro auxiliar apontando para o primeiro termo da lista p
+	TipoPonteiro auxQ = q->prim->prox;		// cria um ponteiro auxiliar apontando para o primeiro termo da lista q
+
+	while (auxP != NULL) {
+		while (auxQ != NULL) {
+				Insere (auxP->coeficiente * auxQ->coeficiente, auxP->expoente + auxQ->expoente, r);
+				auxQ = auxQ->prox;
+		}
+	auxP = auxP->prox;
+	auxQ = q->prim->prox;
+	}
+	r = organiza(r);
+	return r;
 }
 /*----------------------------------------------------------------------------*/
 polinomio subtrai(polinomio p, polinomio q) {
@@ -200,13 +244,28 @@ polinomio subtrai(polinomio p, polinomio q) {
 
 /*----------------------------------------------------------------------------*/
 polinomio derivada(polinomio p) {
-  
-  /* Preencher com seu código aqui */
+	polinomio r = NovaLista();				// inicializa/ aloca a lista vazia
+	FLVazia(r);
+
+	TipoPonteiro aux = p->prim->prox;
+	while (aux != NULL) {
+		Insere(aux->coeficiente*aux->expoente, aux->expoente-1, r);
+		aux = aux->prox;
+	}
+	return r;
 }
 /*----------------------------------------------------------------------------*/
 polinomio primitiva(polinomio p) {
-  
-  /* Preencher com seu código aqui */
+	polinomio r = NovaLista();				// inicializa/ aloca a lista vazia
+	FLVazia(r);
+
+	TipoPonteiro aux = p->prim->prox;
+	while (aux->prox != NULL) {
+		Insere(aux->coeficiente/(aux->expoente+1), aux->expoente+1, r);
+		aux = aux->prox;
+	}
+		Insere(0, 0, r);
+	return r;
 }
 /*----------------------------------------------------------------------------*/
 float avalia(polinomio p, float x) {

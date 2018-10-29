@@ -2,8 +2,6 @@
 #include <stdlib.h>
 #include "lista.h"
 
-/*Preencher com o código fonte */
-
 //----------------------------------
 // 1. Funcao que inicializa a lista 
 //----------------------------------
