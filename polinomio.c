@@ -235,7 +235,6 @@ polinomio subtrai(polinomio p, polinomio q) {
 	}
 	return r;								// devolve o polinomio r
 }
-
 /*----------------------------------------------------------------------------*/
 polinomio derivada(polinomio p) {
 	polinomio r = NovaLista();				// inicializa/ aloca a lista vazia
