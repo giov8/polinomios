@@ -54,8 +54,8 @@ polinomio constroi_polinomio(char *s) {
 /*----------------------------------------------------------------------------*/
 void destroi_polinomio(polinomio p) { 
 
-	LimpaLista(p);
-	free(p);
+	LimpaLista(p);							// limpa os termos ocupados da lista
+	free(p);								// libera o ponteiro do polinomio e a cabeca da lista
 
  }
 /*----------------------------------------------------------------------------*/
@@ -70,7 +70,7 @@ polinomio escreve_polinomio(polinomio p) {
 				break;													// sai do switch
 			case -1: {													// se o coeficiente for -1
 				if (aux->expoente == 0)									// e o expoente for 0:
-					printf("-%2.lf ", aux->coeficiente*(-1));			// imprime apenas o coeficiente -1
+					printf("- %g ", aux->coeficiente*(-1));			// imprime apenas o coeficiente -1
 				else {													// e o expoente for != 0:
 					if (aux->expoente == 1)								// se o expoente for 1
 						printf("- x ");									// imprime apenas -x
@@ -83,7 +83,7 @@ polinomio escreve_polinomio(polinomio p) {
 				if (cont > 1) printf("+");								// e se nao for o primeiro termo
 
 				if (aux->expoente == 0)									// e o expoente for 0:
-					printf("%2.lf ", aux->coeficiente);					// imprime apenas o coeficiente 1
+					printf(" %g ", aux->coeficiente);					// imprime apenas o coeficiente 1
 				else {													// e o expoente for != 0:
 					if (aux->expoente == 1)								// se o expoente for 1
 						printf(" x ");									// imprime apenas x
@@ -96,24 +96,24 @@ polinomio escreve_polinomio(polinomio p) {
 				if (aux->coeficiente < 0) {								// se o coeficiente for negativo e != -1 
 					if (aux->expoente != 0) {							// e o expoente for != 0
 						if (aux->expoente == 1)							// e for igual a 1:
-							printf("-%2.lfx ", aux->coeficiente*(-1));	// imprime apenas o coeficiente
+							printf("- %gx ", aux->coeficiente*(-1));	// imprime apenas o coeficiente
 						else											// se for != 1
-							printf("-%2.lfx^%d ", aux->coeficiente*(-1), aux->expoente);	// imprime o coeficiente x^expoente
+							printf("- %gx^%d ", aux->coeficiente*(-1), aux->expoente);	// imprime o coeficiente x^expoente
 					}
 					else												// se o expoente for 0
-						printf("-%2.lf ", aux->coeficiente*(-1));		// imprime apenas o coeficiente 
+						printf("- %g ", aux->coeficiente*(-1));		// imprime apenas o coeficiente 
 				}
 				else {													// se o coeficiente for positivo e != 1 
 					if (cont > 1) printf("+");							// e se nao for o primeiro termo
 
 					if (aux->expoente != 0) {							// e o expoente for != 0
 						if (aux->expoente == 1)							// e for igual a 1:
-							printf("%2.lfx ", aux->coeficiente);		// imprime coeficiente x
+							printf(" %gx ", aux->coeficiente);		// imprime coeficiente x
 						else											// se for diferente de != 1:
-							printf("%2.lfx^%d ", aux->coeficiente, aux->expoente);		// imprime coeficiente x^expoente
+							printf(" %gx^%d ", aux->coeficiente, aux->expoente);		// imprime coeficiente x^expoente
 					}
 					else												// se o expoente for 0:
-						printf("%2.lf ", aux->coeficiente);				// imprime apenas o coeficiente
+						printf(" %g ", aux->coeficiente);				// imprime apenas o coeficiente
 				}
 				break;
 			}
@@ -121,12 +121,8 @@ polinomio escreve_polinomio(polinomio p) {
 		aux = aux->prox;												// aponta para o proximo
 		cont++;															// incrementa o contador
 	}
-
-    aux = NULL;															// aponta para NULL		
-    free (aux);															// libera o ponteiro auxiliar
     return p;															// devolve o polinomio p
 }
-
 
 /*----------------------------------------------------------------------------*/
 polinomio soma(polinomio p, polinomio q) {
@@ -188,6 +184,7 @@ polinomio organiza(polinomio p) {
 		}
 		Insere(coeficiente, expoente, r);
 	}
+	r->grau = r->prim->prox->expoente;
 	return r; 
 }
 /*----------------------------------------------------------------------------*/
@@ -252,6 +249,7 @@ polinomio derivada(polinomio p) {
 		Insere(aux->coeficiente*aux->expoente, aux->expoente-1, r);
 		aux = aux->prox;
 	}
+	r->grau = r->prim->prox->expoente;
 	return r;
 }
 /*----------------------------------------------------------------------------*/
@@ -264,7 +262,9 @@ polinomio primitiva(polinomio p) {
 		Insere(aux->coeficiente/(aux->expoente+1), aux->expoente+1, r);
 		aux = aux->prox;
 	}
-		Insere(0, 0, r);
+	Insere(0, 0, r);
+	aux = NULL;								// aponta o ponteiro auxiliar para NULL
+	r->grau = r->prim->prox->expoente;
 	return r;
 }
 /*----------------------------------------------------------------------------*/
@@ -277,6 +277,5 @@ float avalia(polinomio p, float x) {
 		resultado += pow(x,aux->expoente)*aux->coeficiente;
 		aux = aux->prox;
 	}
-
 	return resultado;
 }

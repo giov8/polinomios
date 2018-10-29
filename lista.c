@@ -25,13 +25,10 @@ void FLVazia (lista *l) {
                 printf ("Erro. Espaço de memória insuficiente.\n");     // imprime mensagem de erro
                 exit;	                                                // sai do programa
         }
-        l->ult = l->prim;                                        	// primeira e ultima posicao da lista coincidem
+        l->ult = l->prim;                                               // primeira e ultima posicao da lista coincidem
         l->prim->prox = NULL;                                           // campo prox da primeira posicao aponta para NULL
-
-        // PENDENCIA: checar se o ' ' eh a melhor forma de inicializar estes campos da cabeca
-
-	l->prim->coeficiente = ' ';                               // inicializa o campo coeficiente com ' ', pois a lista tera cabeca
-        l->prim->expoente = ' ';                                  // inicializa o campo expoente com ' ', pois a lista tera cabeca
+	l->prim->coeficiente = ' ';                                     // inicializa o campo coeficiente com ' ', pois a lista tera cabeca
+        l->prim->expoente = ' ';                                        // inicializa o campo expoente com ' ', pois a lista tera cabeca
         return;
 }
 
