@@ -1,7 +1,7 @@
 #ifndef _lista_
 #define _lista_
 
-	typedef struct termo *TipoPonteiro;     // define um TipoPonteiro para nodes de termos do polinomio
+	typedef struct termo *TipoPonteiro;		// define um TipoPonteiro para nodes de termos do polinomio
 
 	typedef struct termo {					// define o tipo termo
 		double coeficiente;					// esse campo vai indicar o coeficiente
@@ -10,7 +10,7 @@
 	} termo;
 
 	typedef struct lista {
-        int grau;							// esse campo vai indicar o numero de nos (graus) da lista (polinomio)
+		int grau;							// esse campo vai indicar o numero de nos (graus) da lista (polinomio)
 		TipoPonteiro prim;					// esse campo vai apontar para o primeiro node
 		TipoPonteiro ult;					// esse campo vai apontar para o ultimo node
 	} lista;
