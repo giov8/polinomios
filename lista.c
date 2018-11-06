@@ -56,11 +56,12 @@ void Insere (double c, int e, lista *l) {
 //-------------------------------------------------------------------
 void LimpaLista (lista *l) {
 
-	TipoPonteiro aux;											// declara ponteiro auxiliar
-	if (Vazia(l)) {												// se a lista estiver vazia
+	TipoPonteiro aux;											
+	if (Vazia(l)) {												
 		printf ("Erro. A lista está vazia\n");
 		exit;
 	}
+	
 	while (l->prim->prox != NULL) {								// enquanto nao chegar ao ultimo node
 		aux = l->prim->prox;									// ponteiro aux aponta para primeiro node ocupado
 		l->prim->prox = aux->prox;								// ajusta ponteiro de proximo da cabeca para o proximo node ocupado 

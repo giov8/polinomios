@@ -8,8 +8,8 @@
 /*----------------------------------------------------------------------------*/
 int grau_polinomio(char *s) {
 
-	int g = 0;								// declara inteiro para representar o grau do polinomio iniciando em 0
-	int i = 0;								// declara indice auxiliar comecando em 0 para caminhar na string
+	int g = 0;								// inteiro para representar o grau
+	int i = 0;								// indice auxiliar para caminhar na string
 	if (s[i] == '\0')						// se a string estiver vazia
 		return (-1);
 	while (s[i] != '\0') {					// enquanto nao chegar ao final da string
@@ -22,10 +22,10 @@ int grau_polinomio(char *s) {
 /*----------------------------------------------------------------------------*/
 polinomio constroi_polinomio(char *s) {
 
-	int i = 0;								// declara indice auxiliar comecando em 0 para caminhar na string
-	int expoente;							// declara variavel para o expoente do termo
+	int i = 0;								// indice auxiliar para caminhar na string
+	int expoente;							
 
-	polinomio p = NovaLista();				// inicializa/ aloca a lista vazia
+	polinomio p = NovaLista();				// Aloca a lista vazia
 	FLVazia(p);								// cria lista apenas com a cabeca
 	p->grau = grau_polinomio(s);			// variavel grau recebe o resultado da funcao que calcula o grau do polinomio
 
@@ -33,18 +33,20 @@ polinomio constroi_polinomio(char *s) {
 		printf("Erro! A string com o polinômio está vazia.\n");
 		exit;
 	}
-	for (expoente = p->grau; expoente >= 0; expoente --) {			// ate que o expoente seja 0
+
+	for (expoente = p->grau; expoente >= 0; expoente --) {			
 		char *coeficiente = (char *) malloc(sizeof(char));			// aloca dinamicamente um ponteiro para char
-		int j = 0;													// declara indice j para caminhar na string auxiliar coeficiente
-		do {														// usa o do para que execute ao menos uma vez
-			coeficiente[j] = s[i];									// posicao j da string coeficiente recebe conteudo da posicao i da string s
+		int j = 0;													
+		do {														// usa o "do" para que execute ao menos uma vez
+			coeficiente[j] = s[i];									
 			j++; i++;
-			coeficiente = (char *) realloc(coeficiente, 1 + j * sizeof(char));		// aloca dinamicamente mais espaco para a string coeficiente
+			coeficiente = (char *) realloc(coeficiente, 1 + j * sizeof(char));		// realoca espaco dependendo do tamanho do numero
 		} while ((s[i] != ' '));			// ate encontrar um espaco vazio na string s
-		coeficiente[j] = '\0';				// fecha a string coeficiente com '\0'
+		coeficiente[j] = '\0';				// fecha a string com '\0'
+
 		double c = atof(coeficiente);		// faz casting da string coeficiente para um double float
 		Insere(c, expoente, p);				// insere novo termo no polinomio
-		free (coeficiente);					// libera o espaco alocado dinamicamente para a string coeficiente
+		free (coeficiente);					
 	}
 	return p;
 }
@@ -58,8 +60,8 @@ void destroi_polinomio(polinomio p) {
 /*----------------------------------------------------------------------------*/
 polinomio escreve_polinomio(polinomio p) {
 
-	TipoPonteiro aux = p->prim->prox;	// cria um ponteiro auxiliar apontando para o primeiro termo da lista
-	int cont = 1;						// inicializa o contador que serve apenas para evitar que seja impresso o sinal + antes do primeiro termo
+	TipoPonteiro aux = p->prim->prox;	
+	int cont = 1;						// contador serve apenas para evitar que seja impresso o sinal + antes do primeiro termo
 
 	while (aux != NULL) {												// vai ate o final da lista 
 		switch ((int)aux->coeficiente) {
@@ -101,7 +103,7 @@ polinomio escreve_polinomio(polinomio p) {
 				break;
 			}
 		}
-		aux = aux->prox;												// aponta para o proximo
+		aux = aux->prox;									
 		cont++;	
 	}
 	return p;
@@ -110,31 +112,30 @@ polinomio escreve_polinomio(polinomio p) {
 /*----------------------------------------------------------------------------*/
 polinomio soma(polinomio p, polinomio q) {
   
-	polinomio r = NovaLista();				// inicializa/ aloca a lista vazia
+	polinomio r = NovaLista();				// aloca a lista vazia
 	FLVazia(r);								// cria lista apenas com a cabeca
-	if (p->grau > q->grau)					// se o grau do polinomio p for maior do que o grau do polinomio q
-		r->grau = p->grau;					// o polinomio r recebe o grau de p
-	else
-		r->grau = q->grau; 					// o polinomio r recebe o grau de q
-	TipoPonteiro auxP = p->prim->prox;		// cria um ponteiro auxiliar apontando para o primeiro termo da lista p
-	TipoPonteiro auxQ = q->prim->prox;		// cria um ponteiro auxiliar apontando para o primeiro termo da lista q
+
+	TipoPonteiro auxP = p->prim->prox;		
+	TipoPonteiro auxQ = q->prim->prox;		
 	while ((auxP != NULL) && (auxQ != NULL)) {		// enquanto nao chega ate o final dos polinomios p e q
 		if (auxP->expoente == auxQ->expoente) {		// se os expoentes dos termos de p e q forem iguais
-			Insere(auxP->coeficiente + auxQ->coeficiente, auxP->expoente, r);		// insere no polinomio r o a soma dos coeficientes dos termos de p e q, e o expoente de p
-			auxP = auxP->prox;				// aponta ponteiro auxiliar de p para o proximo termo do polinomio p
-			auxQ = auxQ->prox;				// aponta ponteiro auxiliar de q para o proximo termo do polinomio q
+			Insere(auxP->coeficiente + auxQ->coeficiente, auxP->expoente, r);
+			auxP = auxP->prox;				
+			auxQ = auxQ->prox;				
 		}
 		else {
 			if (auxP->expoente > auxQ->expoente){	// se o expoente de p for maior do que o de q
 				Insere(auxP->coeficiente, auxP->expoente, r); 		// insere no polinomio r o coeficiente do termo de p e seu expoente
-				auxP = auxP->prox;			// aponta ponteiro auxiliar de p para o proximo termo do polinomio p
+				auxP = auxP->prox;			
 			}
 			else {
 				Insere(auxQ->coeficiente, auxQ->expoente, r); 		// insere no polinomio r o coeficiente do termo de q e seu expoente
-				auxQ = auxQ->prox;			// aponta ponteiro auxiliar de q para o proximo termo do polinomio q
+				auxQ = auxQ->prox;			
 			}
 		}
 	}
+
+	r->grau = r->prim->prox->expoente;
 	return r;
 }
 /*----------------------------------------------------------------------------*/
@@ -178,53 +179,53 @@ polinomio multiplica(polinomio p, polinomio q) {
 /*----------------------------------------------------------------------------*/
 polinomio subtrai(polinomio p, polinomio q) {
   
-	polinomio r = NovaLista();				// inicializa/ aloca a lista vazia
+	polinomio r = NovaLista();				// aloca a lista vazia
 	FLVazia(r);								// cria lista apenas com a cabeca
-	if (p->grau > q->grau)					// se o grau do polinomio p for maior do que o grau do polinomio q
-		r->grau = p->grau;					// o polinomio r recebe o grau de p
-	else 
-		r->grau = q->grau;					// o polinomio r recebe o grau de q
-	TipoPonteiro auxP = p->prim->prox;		// cria um ponteiro auxiliar apontando para o primeiro termo da lista p
-	TipoPonteiro auxQ = q->prim->prox;		// cria um ponteiro auxiliar apontando para o primeiro termo da lista q
+
+	TipoPonteiro auxP = p->prim->prox;		
+	TipoPonteiro auxQ = q->prim->prox;		
 	while ((auxP != NULL) && (auxQ != NULL)) {		// enquanto nao chega ate o final dos polinomios p e q
 		if (auxP->expoente == auxQ->expoente) {		// se os expoentes dos termos de p e q forem iguais
 			Insere(auxP->coeficiente - auxQ->coeficiente, auxP->expoente, r); 		// insere no polinomio r o a subtracao dos coeficientes dos termos de p e q (p -q), e o expoente de p
-			auxP = auxP->prox;				// aponta ponteiro auxiliar de p para o proximo termo do polinomio p
-			auxQ = auxQ->prox;				// aponta ponteiro auxiliar de q para o proximo termo do polinomio q
+			auxP = auxP->prox;				
+			auxQ = auxQ->prox;				
 		}
 		else {
 			if (auxP->expoente > auxQ->expoente) {	// se o expoente de p for maior do que o de q
 				Insere(auxP->coeficiente, auxP->expoente, r); 		// insere no polinomio r o coeficiente do termo de p e seu expoente
-				auxP = auxP->prox;			// aponta ponteiro auxiliar de p para o proximo termo do polinomio p
+				auxP = auxP->prox;			
 			}
 			else {
 				Insere(auxQ->coeficiente, auxQ->expoente, r); 		// insere no polinomio r o coeficiente do termo de q e seu expoente
-				auxQ = auxQ->prox;			// aponta ponteiro auxiliar de q para o proximo termo do polinomio q
+				auxQ = auxQ->prox;			
 			}
 		}
 	}
+
+	r->grau = r->prim->prox->expoente;
 	return r;
 }
 /*----------------------------------------------------------------------------*/
 polinomio derivada(polinomio p) {
-	polinomio r = NovaLista();				// inicializa/ aloca a lista vazia
+	polinomio r = NovaLista();				// aloca a lista vazia
 	FLVazia(r);								// cria lista apenas com a cabeca
-	TipoPonteiro aux = p->prim->prox;		// declara ponteiro auxiliar apontando para primeiro termo ocupado do polinomio p
+	TipoPonteiro aux = p->prim->prox;		
 	while (aux != NULL) {					// enquanto nao chega ao final da lista
 		Insere(aux->coeficiente * aux->expoente, aux->expoente - 1, r); 	// deriva o termo do polinomio p e insere no polinomio r
-		aux = aux->prox;					// ponteiro auxiliar aponta para o proximo termo
+		aux = aux->prox;					
 	}
+
 	r->grau = r->prim->prox->expoente;		// atualiza o grau do polinomio r
 	return r;
 }
 /*----------------------------------------------------------------------------*/
 polinomio primitiva(polinomio p) {
-	polinomio r = NovaLista();				// inicializa/ aloca a lista vazia
+	polinomio r = NovaLista();				// aloca a lista vazia
 	FLVazia(r);								// cria lista apenas com a cabeca
-	TipoPonteiro aux = p->prim->prox;		// declara ponteiro auxiliar apontando para primeiro termo ocupado do polinomio p
+	TipoPonteiro aux = p->prim->prox;		
 	while (aux->prox != NULL) {				// ate o ultimo termo ocupado do polinomio p
 		Insere(aux->coeficiente / (aux->expoente + 1), aux->expoente + 1, r);	// integra o termo do polinomio p e insere no polinomio r
-		aux = aux->prox; 					// ponteiro auxiliar aponta para o proximo termo
+		aux = aux->prox; 					
 	}
 	Insere(0, 0, r);						// insere a constante (grau 0 do polinomio) como 0, conforme descritivo do trabalho
 	aux = NULL;
@@ -234,11 +235,11 @@ polinomio primitiva(polinomio p) {
 /*----------------------------------------------------------------------------*/
 float avalia(polinomio p, float x) {
 
-	float resultado = 0;					// declara variavel resultado iniciando em 0
-	TipoPonteiro aux = p->prim->prox;		// declara ponteiro auxiliar apontando para primeiro termo ocupado do polinomio p
+	float resultado = 0;					
+	TipoPonteiro aux = p->prim->prox;		
 	while (aux != NULL) {					// enquanto nao chega ao final da lista
 		resultado += pow(x,aux->expoente) * aux->coeficiente;		// resultado recebe resultado mais o produto do x dado elevado ao expoente pelo coeficiente
-		aux = aux->prox;					// ponteiro auxiliar aponta para o proximo termo
+		aux = aux->prox;					
 	}
 	return resultado;
 }
